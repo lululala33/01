@@ -1,0 +1,101 @@
+
+from selenium import webdriver
+from selenium.webdriver.common import keys
+from selenium.webdriver.common.keys import Keys
+from time import sleep
+
+
+
+
+
+# Chrome 웹 드라이버 생성
+driver = webdriver.Chrome('./chromedriver')
+
+url = "https://hcs.eduro.go.kr/#/relogin"
+
+# url 로딩
+driver.get(url)
+
+# go 버튼 클릭
+a1 = driver.find_element_by_id("btnConfirm2")
+a1.click()
+
+# 이름입력
+a2 = driver.find_element_by_id ( 'user_name_input' ) 
+a2.send_keys ( "이름" )
+
+# 생년월일 입력
+a3 = driver.find_element_by_id ( 'birthday_input' ) 
+a3.send_keys ( "생년월일" )
+
+# 학교 검색
+a4 = driver.find_element_by_class_name("searchBtn")
+a4.click()
+
+# 시/도 선택
+el = driver.find_element_by_id('sidolabel')
+for option in el.find_elements_by_tag_name('option'):
+    if option.text == '정확한 도시 이름':
+        option.click() # select() in earlier versions of webdriver
+        break
+
+#학교급 선택
+el = driver.find_element_by_id('crseScCode')
+for option in el.find_elements_by_tag_name('option'):
+    if option.text == '정확한 학교급 이름':
+        option.click() # select() in earlier versions of webdriver
+        break
+
+# 학교명 검색
+a5 = driver.find_element_by_id ( 'orgname' ) 
+a5.send_keys ( "학교 이름" )
+
+#검색버튼 누르기
+a6 = driver.find_element_by_class_name("searchBtn")
+a6.click()
+
+#학교검색 및 선택
+a7 = driver.find_element_by_class_name("searchBtn")
+a7.click()
+a7 = driver.find_element_by_class_name("searchBtn")
+a7.send_keys(Keys.TAB, Keys.ENTER)
+
+#학교선택
+a9 = driver.find_element_by_class_name("layerFullBtn")
+a9.click()
+
+# 최종 로그인 확인
+a10 = driver.find_element_by_id ( 'btnConfirm' ) 
+a10.click()
+sleep(1)
+
+# 비밀번호 입력(?자리에 생일을 순서대로 입력)
+a11 = driver.find_element_by_class_name("input_text_common")
+a11.send_keys (Keys.NUMPAD?, Keys.NUMPAD?, Keys.NUMPAD?, Keys.NUMPAD?)
+
+#확인
+a12 = driver.find_element_by_id("btnConfirm")
+a12.click()
+sleep(1)
+
+#참여자선택
+a13 = driver.find_element_by_class_name("name")
+a13.click()
+
+sleep(1)
+
+#아니요 클릭
+a14 = driver.find_element_by_id("survey_q1a1")
+a14.click()
+a15 = driver.find_element_by_id("survey_q2a1")
+a15.click()
+a16 = driver.find_element_by_id("survey_q3a1")
+a16.click()
+
+#최최최종 제출
+a17 = driver.find_element_by_class_name("btn")
+a17.click()
+
+
+sleep(1)
+driver.close()
